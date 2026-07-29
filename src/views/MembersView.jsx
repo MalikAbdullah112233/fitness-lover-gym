@@ -527,7 +527,7 @@ export default function MembersView({ onRecordPayment, initialAddOpen = false })
             </div>
 
             <form onSubmit={handleFormSubmit}>
-              <div className="modal-body" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="modal-body modal-body-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 
                 <div className="form-group" style={{ gridColumn: 'span 2' }}>
                   <label className="form-label">Full Name *</label>

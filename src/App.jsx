@@ -24,6 +24,9 @@ export default function App() {
   const [isBackupOpen, setIsBackupOpen] = useState(false);
   const [lateFeeCount, setLateFeeCount] = useState(0);
 
+  // Mobile menu drawer state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // Cross-view actions state
   const [selectedFeeMemberId, setSelectedFeeMemberId] = useState(null);
   const [openAddMemberModal, setOpenAddMemberModal] = useState(false);
@@ -70,6 +73,8 @@ export default function App() {
         onLogout={handleLogout}
         onOpenLogin={() => setIsLoginOpen(true)}
         onOpenBackup={() => setIsBackupOpen(true)}
+        isMobileOpen={isMobileMenuOpen}
+        onCloseMobile={() => setIsMobileMenuOpen(false)}
       />
 
       {/* Right Main Content Area */}
@@ -82,6 +87,7 @@ export default function App() {
           user={user}
           lateFeeAlertCount={lateFeeCount}
           onNavigate={setActiveTab}
+          onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         />
 
         <main className="content-wrapper">

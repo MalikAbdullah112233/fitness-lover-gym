@@ -224,7 +224,7 @@ export default function DashboardView({ onNavigate, onRecordPaymentForMember, on
       </div>
 
       {/* Main Grid: Late Fee Alerts Panel & Pricing Plans */}
-      <div style={{
+      <div className="grid-mobile-stack" style={{
         display: 'grid',
         gridTemplateColumns: 'minmax(0, 1.6fr) minmax(0, 1fr)',
         gap: '24px'

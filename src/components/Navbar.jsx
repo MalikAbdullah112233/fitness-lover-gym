@@ -8,7 +8,8 @@ import {
   ShieldCheck,
   PhoneCall,
   Clock,
-  Database
+  Database,
+  Menu
 } from 'lucide-react';
 import { settingsService } from '../services/settingsService';
 import { notificationService } from '../services/notificationService';
@@ -21,7 +22,8 @@ export default function Navbar({
   onOpenBackupModal,
   user,
   lateFeeAlertCount,
-  onNavigate
+  onNavigate,
+  onToggleMobileMenu
 }) {
   const [gymBranding, setGymBranding] = useState({ name: 'Fitness Lover Gym', address: 'MG Road' });
   const [timeStr, setTimeStr] = useState('');
@@ -80,19 +82,19 @@ export default function Navbar({
     switch (activeTab) {
       case 'dashboard': return 'Admin Overview Dashboard';
       case 'members': return 'Gym Members Directory';
-      case 'fees': return 'Fee & Subscription Management';
-      case 'attendance': return 'Daily Attendance & Check-In Portal';
-      case 'trainers': return 'Fitness Trainers & Instructors';
+      case 'fees': return 'Fee Management';
+      case 'attendance': return 'Attendance & Check-In';
+      case 'trainers': return 'Fitness Trainers';
       case 'registrations': return 'Online Prospect Applications';
-      case 'reports': return 'Financial & Membership Analytics';
-      case 'settings': return 'Gym Owner Settings & Branding';
-      case 'public_register': return 'Online Member Registration Portal';
+      case 'reports': return 'Revenue & Reports Analytics';
+      case 'settings': return 'Gym Owner Settings';
+      case 'public_register': return 'Online Member Registration';
       default: return 'Gym Management System';
     }
   };
 
   return (
-    <header style={{
+    <header className="header-navbar" style={{
       height: '72px',
       backgroundColor: 'rgba(8, 8, 8, 0.88)',
       backdropFilter: 'blur(16px)',
@@ -105,21 +107,32 @@ export default function Navbar({
       top: 0,
       zIndex: 40
     }}>
-      {/* Title & Section */}
-      <div>
-        <h2 style={{ fontSize: '20px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {getTitle()}
-        </h2>
-        <span style={{ fontSize: '12px', color: '#a1a1aa' }}>
-          {gymBranding.name} &bull; {gymBranding.address}
-        </span>
+      {/* Title & Section with Mobile Hamburger Toggle */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={onToggleMobileMenu}
+          className="mobile-menu-toggle"
+          title="Toggle Navigation Menu"
+        >
+          <Menu size={20} />
+        </button>
+
+        <div>
+          <h2 className="header-title-text" style={{ fontSize: '18px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {getTitle()}
+          </h2>
+          <span className="header-subtitle-text" style={{ fontSize: '12px', color: '#a1a1aa' }}>
+            {gymBranding.name} &bull; {gymBranding.address}
+          </span>
+        </div>
       </div>
 
       {/* Right Controls */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
 
-        {/* Real-time Clock Badge */}
-        <div style={{
+        {/* Real-time Clock Badge (hidden on narrow mobile screens) */}
+        <div className="hide-on-mobile" style={{
           display: 'flex',
           alignItems: 'center',
           gap: '6px',
@@ -139,11 +152,11 @@ export default function Navbar({
           <button
             onClick={onOpenBackupModal}
             className="btn btn-secondary"
-            style={{ fontSize: '13px', padding: '8px 12px' }}
+            style={{ fontSize: '13px', padding: '6px 10px', minHeight: '36px' }}
             title="Database Backup & Restore"
           >
             <Database size={15} color="#d4af37" />
-            <span>Backup</span>
+            <span className="btn-text-mobile">Backup</span>
           </button>
         )}
 
@@ -154,8 +167,8 @@ export default function Navbar({
               onClick={handleToggleNotifications}
               title={unreadCount > 0 ? `${unreadCount} unread notifications` : 'Gym Notifications'}
               style={{
-                width: '38px',
-                height: '38px',
+                width: '36px',
+                height: '36px',
                 borderRadius: '10px',
                 backgroundColor: unreadCount > 0 ? 'rgba(225, 29, 72, 0.18)' : 'rgba(255, 255, 255, 0.04)',
                 border: unreadCount > 0 ? '1px solid rgba(225, 29, 72, 0.5)' : '1px solid rgba(212, 175, 55, 0.18)',
@@ -166,12 +179,6 @@ export default function Navbar({
                 cursor: 'pointer',
                 transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                 outline: 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
               }}
             >
               <Bell size={18} />
@@ -221,10 +228,11 @@ export default function Navbar({
           <button
             onClick={onOpenCheckIn}
             className="btn btn-secondary"
-            style={{ fontSize: '13px', padding: '8px 14px' }}
+            style={{ fontSize: '13px', padding: '6px 10px', minHeight: '36px' }}
+            title="Quick Member Check-In"
           >
             <QrCode size={16} color="#d4af37" />
-            <span>Check-In</span>
+            <span className="btn-text-mobile">Check-In</span>
           </button>
         )}
 
@@ -233,10 +241,11 @@ export default function Navbar({
           <button
             onClick={onOpenAddMember}
             className="btn btn-primary"
-            style={{ fontSize: '13px', padding: '8px 16px' }}
+            style={{ fontSize: '13px', padding: '6px 12px', minHeight: '36px' }}
+            title="Register New Gym Member"
           >
             <UserPlus size={16} />
-            <span>New Member</span>
+            <span className="btn-text-mobile">New Member</span>
           </button>
         )}
       </div>
